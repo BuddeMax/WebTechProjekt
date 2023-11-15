@@ -1,7 +1,7 @@
-POST http://localhost:8080/things
+POST http://localhost:8080/patient
 Content-Type: application/json
 
 {
-  "name": "Patient",
-  "price": "100"
+  "name": "Inge",
+  "age": "56"
 }

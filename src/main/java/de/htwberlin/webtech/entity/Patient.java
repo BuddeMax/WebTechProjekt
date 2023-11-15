@@ -1,20 +1,22 @@
-package de.htwberlin.webtech.web;
+package de.htwberlin.webtech.entity;
 
+import de.htwberlin.webtech.*;
 import jakarta.persistence.*;
 
 @Entity
-public class Thing {
+public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int price;
+    private int age;
 
-    public Thing() {}
+    public Patient() {
+    }
 
-    public Thing(String name, int price) {
+    public Patient(String name, int age) {
         this.name = name;
-        this.price = price;
+        this.age = age;
     }
 
     public Long getId() {
@@ -33,31 +35,31 @@ public class Thing {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
+    public int getAge() {
+        return age;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Thing)) return false;
+        if (!(o instanceof Patient)) return false;
 
-        Thing thing = (Thing) o;
+        Patient patient = (Patient) o;
 
-        if (getPrice() != thing.getPrice()) return false;
-        if (getId() != null ? !getId().equals(thing.getId()) : thing.getId() != null) return false;
-        return getName() != null ? getName().equals(thing.getName()) : thing.getName() == null;
+        if (getAge() != patient.getAge()) return false;
+        if (getId() != null ? !getId().equals(patient.getId()) : patient.getId() != null) return false;
+        return getName() != null ? getName().equals(patient.getName()) : patient.getName() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + getPrice();
+        result = 31 * result + getAge();
         return result;
     }
 
@@ -66,7 +68,8 @@ public class Thing {
         return "Thing{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", price=" + price +
+                ", age=" + age +
                 '}';
     }
+
 }
