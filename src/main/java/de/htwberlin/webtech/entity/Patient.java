@@ -1,54 +1,53 @@
 package de.htwberlin.webtech.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.Persistent;
+import java.util.List;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
-public class Patient {
+public class Patient extends AbstractUser{
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "patientId")
     private Long id;
-    private String name;
-    private String firstname;
-    private int age;// umändern zu birthdate
-    private LocalDate birthDate;
-    private String gender;
-    @ManyToOne
-    @JoinColumn(name = "bedId")
-    private Bed bed;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "bedId")
+    public Bed bed;
+
+    @OneToOne
     @JoinColumn(name = "areaId")
     private Area area;
 
-    @ManyToOne
-    @JoinColumn(name = "responsibleDoctorId")
-    private AbstractUser responsiblePhysician;
+    @OneToOne
+    @JoinColumn(name = "doctorId")
+    private Physician responsiblePhysician;
 
-    @ManyToOne
-    @JoinColumn(name = "responsibleNurseId")
-    private AbstractUser responsibleNurse;
+    @OneToOne
+    @JoinColumn(name = "nurseId")
+    private Nurse responsibleNurse;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "vitalSignsId")
-    private VitalSigns vitalSigns;
+    private List<VitalSigns> vitalSigns;
 
+    @Column(name = "note")
     private String note;
+
+    @OneToMany
+    @JoinColumn(name = "fileId")
+    private List<File> files;
 
     public Patient() {
     }
 
-    public Patient(String name,String firstname, int age) {
-        this.name = name;
-        this.firstname = firstname;
-        this.age = age;// umändern zu birthdate
-        this.birthDate = birthDate;
-        this.gender = gender;
-        this.bed = bed;
-        this.area = area;
-        this.responsiblePhysician = responsiblePhysician;
-        this.responsibleNurse = responsibleNurse;
-        this.note = note;
+    public Patient(String username, String password) {
+        setUsername(username);
+        setPassword(password);
     }
 
     public Long getId() {
@@ -58,43 +57,30 @@ public class Patient {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFirstname() {return firstname;}
-    public void setFirstname(String firstname){ this.firstname = firstname;}
-
-    public int getAge() {
-        return age;
-    }
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public LocalDate getBirthDate() {return birthDate;}
-    public void setBirthDate(LocalDate birthDate) {this.birthDate = birthDate;}
-
-    public String getGender() {return gender;}
-    public void setGender(String gender) {this.gender = gender;}
-
     public Bed getBed() {return bed;}
     public void setBed(Bed bed) {this.bed = bed;}
 
     public Area getArea() {return area;}
     public void setArea(Area area) {this.area = area;}
 
-    public AbstractUser getResponsiblePhysician() {return responsiblePhysician;}
-    public void setResponsiblePhysician(AbstractUser responsiblePhysician) {this.responsiblePhysician = responsiblePhysician;}
+    public Physician getResponsiblePhysician() {
+        return (Physician) responsiblePhysician;
+    }
 
-    public AbstractUser getResponsibleNurse() {return responsibleNurse;}
-    public void setResponsibleNurse(AbstractUser responsibleNurse) {this.responsibleNurse = responsibleNurse;}
+    public void setResponsiblePhysician(Physician responsiblePhysician) {
+        this.responsiblePhysician = responsiblePhysician;
+    }
 
-    public VitalSigns getVitalSigns() {return vitalSigns;}
-    public void setVitalSigns(VitalSigns vitalSigns) {this.vitalSigns = vitalSigns;}
+    public Nurse getResponsibleNurse() {
+        return (Nurse) responsibleNurse;
+    }
+
+    public void setResponsibleNurse(Nurse responsibleNurse) {
+        this.responsibleNurse = responsibleNurse;
+    }
+
+    public List<VitalSigns> getVitalSigns() {return vitalSigns; }
+    public void setVitalSigns(List<VitalSigns> vitalSigns) {this.vitalSigns = vitalSigns;}
 
     public String getNote() {return note;}
     public void setNote(String note) {this.note = note;}
@@ -103,38 +89,33 @@ public class Patient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Patient)) return false;
+        if (!super.equals(o)) return false; // Check fields from the superclass
 
         Patient patient = (Patient) o;
 
-        if (getAge() != patient.getAge()) return false;
-        if (getId() != null ? !getId().equals(patient.getId()) : patient.getId() != null) return false;
-        return getName() != null ? getName().equals(patient.getName()) : patient.getName() == null;
+        if (!Objects.equals(id, patient.id)) return false;
+        if (!Objects.equals(bed, patient.bed)) return false;
+        if (!Objects.equals(area, patient.area)) return false;
+        if (!Objects.equals(responsiblePhysician, patient.responsiblePhysician)) return false;
+        if (!Objects.equals(responsibleNurse, patient.responsibleNurse)) return false;
+        return Objects.equals(vitalSigns, patient.vitalSigns);
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + getAge();
-        result = 31 * result + (getFirstname() != null ? getFirstname().hashCode() : 0);
-        return result;
+        return Objects.hash(super.hashCode(), id, bed, area, responsiblePhysician, responsibleNurse, vitalSigns);
     }
 
     @Override
     public String toString() {
-        return "Thing{" +
+        return "Patient{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", age=" + age +
-                ", birthDate=" + birthDate +
-                ", gender='" + gender + '\'' +
-                ", bedId=" + (bed != null ? bed.getId() : null) +
-                ", areaId=" + (area != null ? area.getAreaId() : null) +
-                ", responsibleDoctorId=" + (responsiblePhysician != null ? responsiblePhysician.getId() : null) +
-                ", responsibleNurseId=" + (responsibleNurse != null ? responsibleNurse.getId() : null) +
-                ", vitalSignsId=" + (vitalSigns != null ? vitalSigns.getId() : null) +
+                ", bed=" + (bed != null ? bed.getId() : null) +
+                ", area=" + (area != null ? area.getAreaId() : null) +
+                ", responsiblePhysician=" + (responsiblePhysician != null ? responsiblePhysician.getId() : null) +
+                ", responsibleNurse=" + (responsibleNurse != null ? responsibleNurse.getId() : null) +
+                ", vitalSigns=" + vitalSigns +
                 ", note='" + note + '\'' +
-                '}';
+                "} " + super.toString(); // Include fields from the superclass
     }
 }

@@ -8,21 +8,24 @@ import java.util.Objects;
 public class AuditLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "auditLogId")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
-    private AbstractUser abstractUser;
-
+    @JoinColumn(name = "patientId")
+    private Patient patient;
+    @Column(name = "action")
     private String action;
+    @Column(name = "changedData")
     private String changedData;
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
     public AuditLog() {
     }
 
-    public AuditLog(AbstractUser abstractUser, String action, String changedData, LocalDateTime timestamp) {
-        this.abstractUser = abstractUser;
+    public AuditLog(Patient patient, String action, String changedData, LocalDateTime timestamp) {
+        this.patient = patient;
         this.action = action;
         this.changedData = changedData;
         this.timestamp = timestamp;
@@ -31,8 +34,8 @@ public class AuditLog {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public AbstractUser getUser() { return abstractUser; }
-    public void setUser(AbstractUser abstractUser) { this.abstractUser = abstractUser; }
+    public Patient getUser() { return patient; }
+    public void setUser(Patient patient) { this.patient = patient; }
 
     public String getAction() { return action; }
     public void setAction(String action) { this.action = action; }
@@ -49,7 +52,7 @@ public class AuditLog {
         if (!(o instanceof AuditLog)) return false;
         AuditLog auditLog = (AuditLog) o;
         return Objects.equals(id, auditLog.id) &&
-                Objects.equals(abstractUser, auditLog.abstractUser) &&
+                Objects.equals(patient, auditLog.patient) &&
                 Objects.equals(action, auditLog.action) &&
                 Objects.equals(changedData, auditLog.changedData) &&
                 Objects.equals(timestamp, auditLog.timestamp);
@@ -57,14 +60,14 @@ public class AuditLog {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, abstractUser, action, changedData, timestamp);
+        return Objects.hash(id, patient, action, changedData, timestamp);
     }
 
     @Override
     public String toString() {
         return "AuditLog{" +
                 "id=" + id +
-                ", userId=" + (abstractUser != null ? abstractUser.getId() : null) +
+                ", userId=" + (patient != null ? patient.getId() : null) +
                 ", action='" + action + '\'' +
                 ", changedData='" + changedData + '\'' +
                 ", timestamp=" + timestamp +

@@ -1,14 +1,20 @@
 package de.htwberlin.webtech.entity;
 
 import jakarta.persistence.*;
+import de.htwberlin.webtech.entity.*;
+import org.springframework.data.annotation.Persistent;
 
 @Entity
 public class Area {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "areaId")
     private Long areaId;
+    @Column(name = "name")
     private String name;
+    @Column(name = "bed")
     private String bed;
+    @Column(name = "capacity")
     private int capacity;
 
     public Area() {

@@ -5,14 +5,15 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "\"user_physician\"")
 public class Physician extends AbstractUser {
+    @Column(name = "specialty")
     private String specialty;
 
     public Physician() {
     }
 
-    public Physician(String username, String password, String role, String specialty) {
-        super(username, password, role);
-        this.specialty = specialty;
+    public Physician(String username, String password) {
+        setUsername(username);
+        setPassword(password);
     }
 
     public String getSpecialty() { return specialty; }
@@ -35,7 +36,6 @@ public class Physician extends AbstractUser {
         return "Physician{" +
                 "id=" + getId() +
                 ", username='" + getUsername() + '\'' +
-                ", role='" + getRole() + '\'' +
                 '}';
     }
 }

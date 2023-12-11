@@ -8,15 +8,20 @@ import java.util.Objects;
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "fileId")
     private Long id;
 
-    @ManyToOne
+    @Transient
     @JoinColumn(name = "patientId")
     private Patient patient;
 
+    @Column(name = "fileName")
     private String fileName;
+    @Column(name = "filePath")
     private String filePath;//DB zum Datn speichern für Laborergebnisse usw.
+    @Column(name = "uploadDate")
     private LocalDateTime uploadDate;
+    @Column(name = "description")
     private String description;//optional
 
     public File() {

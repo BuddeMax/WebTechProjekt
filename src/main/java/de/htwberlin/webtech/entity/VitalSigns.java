@@ -11,7 +11,6 @@ public class VitalSigns {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patientId")
     private Patient patient;
 
     private String bloodPressure;

@@ -2,13 +2,10 @@ package de.htwberlin.webtech.controller;
 
 import de.htwberlin.webtech.entity.Patient;
 import de.htwberlin.webtech.service.PatientService;
-import de.htwberlin.webtech.repository.PatientRepository;
-import de.htwberlin.webtech.controller.PatientController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class PatientController {
 
     @GetMapping("/patient/{id}")
     public Patient getPatient(@PathVariable String id) {
-        logger.info("GET request on route things with {}", id);
+        logger.info("GET request on route patient with {}", id);
         Long patientId = Long.parseLong(id);
         return service.get(patientId);
     }
@@ -45,5 +42,13 @@ public class PatientController {
         service.delete(patientId);
     }
 
+    // Neue Methode für die Aktualisierung eines Patienten
+    @PutMapping("/patient/{id}")
+    public Patient updatePatient(@PathVariable String id, @RequestBody Patient updatedPatient) {
+        logger.info("PUT request on route patient with {}", id);
+        Long patientId = Long.parseLong(id);
+        return service.update(patientId, updatedPatient);
+    }
 }
+
 

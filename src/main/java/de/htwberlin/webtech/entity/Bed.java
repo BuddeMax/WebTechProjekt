@@ -8,15 +8,17 @@ import java.util.Objects;
 public class Bed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bedId")
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "areaId")
     private Area area;
 
+    @Column(name = "occupancyStatus")
     private boolean occupancyStatus;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "patientId")
     private Patient patient;
 

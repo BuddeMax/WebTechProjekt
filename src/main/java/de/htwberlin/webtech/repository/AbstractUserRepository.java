@@ -1,13 +1,9 @@
 package de.htwberlin.webtech.repository;
 
-import de.htwberlin.webtech.entity.VitalSigns;
+import de.htwberlin.webtech.entity.AbstractUser;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface VitalSignsRepository extends CrudRepository<VitalSigns, Long> {
-
+public interface AbstractUserRepository extends CrudRepository<AbstractUser,Long> {
 }
-

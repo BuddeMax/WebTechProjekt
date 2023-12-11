@@ -8,29 +8,33 @@ import java.util.Objects;
 public class Examination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "examinationId")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "patientId")
     private Patient patient;
 
+    @Column(name = "typeOfExamination")
     private String typeOfExamination;
+    @Column(name = "appointmentDateTime")
     private LocalDateTime appointmentDateTime;
 
-    @ManyToOne
-    @JoinColumn(name = "responsibleStaffId")
-    private AbstractUser responsibleStaff; // Optional
+    @OneToOne
+    @JoinColumn(name = "nurseId")
+    private Nurse nurse; // Optional
 
+    @Column(name = "specificInstructions")
     private String specificInstructions; // Optional
 
     public Examination() {
     }
 
-    public Examination(Patient patient, String typeOfExamination, LocalDateTime appointmentDateTime, AbstractUser responsibleStaff, String specificInstructions) {
+    public Examination(Patient patient, String typeOfExamination, LocalDateTime appointmentDateTime, Nurse nurse, String specificInstructions) {
         this.patient = patient;
         this.typeOfExamination = typeOfExamination;
         this.appointmentDateTime = appointmentDateTime;
-        this.responsibleStaff = responsibleStaff;
+        this.nurse = nurse;
         this.specificInstructions = specificInstructions;
     }
 
@@ -47,8 +51,8 @@ public class Examination {
     public LocalDateTime getAppointmentDateTime() { return appointmentDateTime; }
     public void setAppointmentDateTime(LocalDateTime appointmentDateTime) { this.appointmentDateTime = appointmentDateTime; }
 
-    public AbstractUser getResponsibleStaff() { return responsibleStaff; }
-    public void setResponsibleStaff(AbstractUser responsibleStaff) { this.responsibleStaff = responsibleStaff; }
+    public AbstractUser getResponsibleStaff() { return nurse; }
+    public void setResponsibleStaff(Nurse nurse) { this.nurse = nurse; }
 
     public String getSpecificInstructions() { return specificInstructions; }
     public void setSpecificInstructions(String specificInstructions) { this.specificInstructions = specificInstructions; }
@@ -63,13 +67,13 @@ public class Examination {
                 Objects.equals(patient, that.patient) &&
                 Objects.equals(typeOfExamination, that.typeOfExamination) &&
                 Objects.equals(appointmentDateTime, that.appointmentDateTime) &&
-                Objects.equals(responsibleStaff, that.responsibleStaff) &&
+                Objects.equals(nurse, that.nurse) &&
                 Objects.equals(specificInstructions, that.specificInstructions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, patient, typeOfExamination, appointmentDateTime, responsibleStaff, specificInstructions);
+        return Objects.hash(id, patient, typeOfExamination, appointmentDateTime, nurse, specificInstructions);
     }
 
     @Override
@@ -79,7 +83,7 @@ public class Examination {
                 ", patientId=" + (patient != null ? patient.getId() : null) +
                 ", typeOfExamination='" + typeOfExamination + '\'' +
                 ", appointmentDateTime=" + appointmentDateTime +
-                ", responsibleStaffId=" + (responsibleStaff != null ? responsibleStaff.getId() : null) +
+                ", responsibleStaffId=" + (nurse != null ? nurse.getId() : null) +
                 ", specificInstructions='" + specificInstructions + '\'' +
                 '}';
     }
