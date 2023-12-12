@@ -178,12 +178,20 @@ public class PatientService {
         return null;
     }
 
-    // Neue Methode für die Erstellung eines ToDo
+    /** Neue Methode für die Erstellung eines ToDo, die anfangs erst das Objekt ToDo erstellt und
+     * dieses dann in Datenbank speichert. Anschließend wird das ToDo-Objekt aus der Datenbank
+     * dem Patienten hinzugefügt und der Patient in der Datenbank gespeichert.
+     * @param id
+     * @param toDoId
+     * @param updatedToDo
+     * @return
+     */
     public ToDo createToDo (Long id, ToDo toDo) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        existingPatient.addToDo (toDo);
-        return repo.save(existingPatient).getToDo (toDo.getToDoId());
+        existingPatient.addToDo(toDo);
+        return repo.save(existingPatient).getToDo(toDo.getToDoId());
     }
+
 
     // Neue Methode für das Update eines ToDo
     public ToDo updateToDo (Long id, Long toDoId, ToDo updatedToDo) {

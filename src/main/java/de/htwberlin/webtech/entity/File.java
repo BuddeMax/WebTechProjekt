@@ -11,10 +11,6 @@ public class File {
     @Column(name = "fileId")
     private Long id;
 
-    @Transient
-    @JoinColumn(name = "patientId")
-    private Patient patient;
-
     @Column(name = "fileName")
     private String fileName;
     @Column(name = "filePath")
@@ -27,8 +23,7 @@ public class File {
     public File() {
     }
 
-    public File(Patient patient, String fileName, String filePath, LocalDateTime uploadDate, String description) {
-        this.patient = patient;
+    public File(String fileName, String filePath, LocalDateTime uploadDate, String description) {
         this.fileName = fileName;
         this.filePath = filePath;
         this.uploadDate = uploadDate;
@@ -37,9 +32,6 @@ public class File {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public Patient getPatient() { return patient; }
-    public void setPatient(Patient patient) { this.patient = patient; }
 
     public String getFileName() { return fileName; }
     public void setFileName(String fileName) { this.fileName = fileName; }
@@ -59,7 +51,6 @@ public class File {
         if (!(o instanceof File)) return false;
         File file = (File) o;
         return Objects.equals(id, file.id) &&
-                Objects.equals(patient, file.patient) &&
                 Objects.equals(fileName, file.fileName) &&
                 Objects.equals(filePath, file.filePath) &&
                 Objects.equals(uploadDate, file.uploadDate) &&
@@ -68,14 +59,13 @@ public class File {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, patient, fileName, filePath, uploadDate, description);
+        return Objects.hash(id, fileName, filePath, uploadDate, description);
     }
 
     @Override
     public String toString() {
         return "File{" +
                 "id=" + id +
-                ", patientId=" + (patient != null ? patient.getId() : null) +
                 ", fileName='" + fileName + '\'' +
                 ", filePath='" + filePath + '\'' +
                 ", uploadDate=" + uploadDate +

@@ -37,6 +37,7 @@ public class Patient{
     private List<VitalSigns> vitalSigns;
 
     @OneToMany
+    @JoinColumn(name = "toDoId")
     private List<ToDo> toDos;
 
     @OneToMany
