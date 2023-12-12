@@ -18,29 +18,29 @@ public class Patient{
     private int age;// umändern zu birthdate
     private LocalDate birthDate;
     private String gender;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "bedId")
     private Bed bed;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "areaId")
     private Area area;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "doctorId")
     private AbstractUser responsiblePhysician;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "nurseId")
     private AbstractUser responsibleNurse;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient", cascade = CascadeType.ALL)
     private Set<VitalSigns> vitalSigns;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient", cascade = CascadeType.ALL)
     private Set<ToDo> toDos;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient", cascade = CascadeType.ALL)
     private Set<File> files = new HashSet<>();
 
     private String note;

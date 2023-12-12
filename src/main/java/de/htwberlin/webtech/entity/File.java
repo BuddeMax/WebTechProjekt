@@ -11,21 +11,14 @@ import java.util.Objects;
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "fileId")
     private Long id;
-
-    @Column(name = "fileName")
     private String fileName;
-    @Column(name = "filePath")
     private String filePath;//DB zum Datn speichern für Laborergebnisse usw.
-    @Column(name = "uploadDate")
     private LocalDateTime uploadDate;
-    @Column(name = "description")
     private String description;//optional
-
     @ManyToOne
-    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn(name = "patientId")
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @JoinColumn(name = "file_id")
     private Patient patient;
 
     public File() {
@@ -52,6 +45,9 @@ public class File {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public Patient getPatient() { return patient; }
+    public void setPatient(Patient patient) { this.patient = patient; }
 
     @Override
     public boolean equals(Object o) {

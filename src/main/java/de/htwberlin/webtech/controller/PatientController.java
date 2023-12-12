@@ -4,6 +4,8 @@ import de.htwberlin.webtech.entity.File;
 import de.htwberlin.webtech.entity.Patient;
 import de.htwberlin.webtech.entity.ToDo;
 import de.htwberlin.webtech.entity.VitalSigns;
+import de.htwberlin.webtech.repository.FileRepository;
+import de.htwberlin.webtech.repository.PatientRepository;
 import de.htwberlin.webtech.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +23,12 @@ public class PatientController {
 
     @Autowired
     PatientService service;
+
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
 
     Logger logger = LoggerFactory.getLogger(PatientController.class);
 
@@ -70,20 +79,6 @@ public class PatientController {
         logger.info("GET request on route patient with {}", id);
         Long patientId = Long.parseLong(id);
         return service.getFiles(patientId);
-    }
-
-    // Neue Methode für die Erstellung eines Files
-    @PostMapping("/patient/{id}/files")
-    public ResponseEntity<String> createFileForPatient(@PathVariable Long id, @RequestBody File file) {
-        logger.info("POST request on route patient with {}", id);
-
-        // Erstelle das File
-        File createdFile = service.createFile(file);
-
-        // Ordne das erstellte File dem Patienten zu
-        service.assignFileToPatient(id, createdFile.getId());
-
-        return ResponseEntity.ok("File created and assigned to patient.");
     }
 
     // Neue Methode für das Update eines Files
@@ -189,6 +184,63 @@ public class PatientController {
         Long vitalSignIdLong = Long.parseLong(vitalSignId);
         service.deleteVitalSign(patientId, vitalSignIdLong);
     }
+
+    @PostMapping("/savePatient")
+    public String savePatient(@RequestBody Patient patient) {
+        System.out.println("Patient save called...");
+
+        // a new Owner
+        Patient patientIn = new Patient();
+
+        // list of Blog
+        Set<File> files = new HashSet<>();
+        for (File fileIn : patient.getFiles()) {
+            // new Blog
+            File file = new File(fileIn.getFileName(), fileIn.getFilePath(), fileIn.getUploadDate(), fileIn.getDescription());
+            // set owner to Blog
+            file.setPatient(patientIn);
+            // add blog to list
+            files.add(file);
+        }
+
+        // add blog list to Owner
+        patientIn.setFiles(files);
+
+        // save Owner
+        Patient patientOut = patientRepository.save(patientIn);
+        System.out.println("Owner out :: " + patientIn);
+
+        System.out.println("Saved!!!");
+        return "Patient saved!!!";
+    }
+
+    @PostMapping("/saveFile")
+    public String saveFile(@RequestParam(name = "id") String id) {
+        System.out.println("File save called...");
+
+        // fetch Ower
+        Patient patientTemp = patientRepository.findById(Long.parseLong(id)).get();
+
+        // list of Blog
+        Set<File> files = new HashSet<>();
+
+        // new Blog
+        File file = new File();
+        // set owner to blog
+        file.setPatient(patientTemp);
+        // add Blog to list
+        files.add(file);
+
+        // add Blog list to Owner
+        patientTemp.setFiles(files);
+
+        // save Owner
+        patientRepository.save(patientTemp);
+
+        System.out.println("Saved!!!");
+        return "File saved!!!";
+    }
+
 
 }
 

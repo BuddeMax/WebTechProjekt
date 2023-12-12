@@ -8,7 +8,6 @@ import java.util.Objects;
 public class AuditLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "auditLogId")
     private Long id;
 
     @ManyToOne

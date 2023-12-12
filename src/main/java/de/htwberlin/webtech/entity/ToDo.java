@@ -11,20 +11,13 @@ import java.time.LocalDateTime;
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "toDoId")
     private Long toDoId;
-    @Column(name = "beschreibung")
     private String beschreibung;
-    @Column(name = "prioritaet")
     private String prioritaet;
-    @Column(name = "status")
     private String status;
-    @Column(name = "recordingTime")
     private LocalDateTime recordingTime;
-
-    @ManyToOne
-    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn(name = "patientId")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     // Getter für toDoId

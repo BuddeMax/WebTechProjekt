@@ -18,8 +18,8 @@ public class VitalSigns {
     private Double temperature;
     private LocalDateTime recordingTime;
     @ManyToOne
-    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn(name = "patientId")
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @JoinColumn(name = "vitalSigns_id")
     private Patient patient;
 
     public VitalSigns() {

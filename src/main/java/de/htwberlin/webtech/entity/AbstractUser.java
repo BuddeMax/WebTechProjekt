@@ -11,21 +11,21 @@ import java.util.Objects;
 public abstract class AbstractUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
+
     private Long id;
-    @Column(name = "username")
+
     private String username;
-    @Column(name = "password")
+
     private String password;
-    @Column (name = "firstname")
+
     private String firstname;
-    @Column (name = "lastname")
+
     private String lastname;
-    @Column (name = "birthdate")
+
     private LocalDateTime birthdate;
     @Transient
     private Integer age;
-    @Column(name = "gender")
+
     private String gender;
 
     public AbstractUser() {

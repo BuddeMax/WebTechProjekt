@@ -2,7 +2,10 @@ POST http://localhost:8080/patient/12/files
 Content-Type: application/json
 
 {
-    "file": "file1",
-    "description": "description1"
+  "fileName": "file1",
+  "filePath": "path/to/file1",
+  "uploadDate": "2023-12-12T08:00:00",
+  "description": "description1"
 }
+
 
