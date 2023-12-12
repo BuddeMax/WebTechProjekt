@@ -1,23 +1,26 @@
 package de.htwberlin.webtech.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Table(name = "vitalSigns")
 public class VitalSigns {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    private Patient patient;
-
+    private Long vitalSignId;
     private String bloodPressure;
     private Integer heartRate;
     private Double oxygenSaturation;
     private Double temperature;
     private LocalDateTime recordingTime;
+    @ManyToOne
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinColumn(name = "patientId")
+    private Patient patient;
 
     public VitalSigns() {
     }
@@ -32,8 +35,8 @@ public class VitalSigns {
     }
 
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getVitalSignId() { return vitalSignId; }
+    public void setVitalSignId(Long vitalSignId) { this.vitalSignId = vitalSignId; }
 
     public Patient getPatient() { return patient; }
     public void setPatient(Patient patient) { this.patient = patient; }
@@ -58,7 +61,7 @@ public class VitalSigns {
         if (this == o) return true;
         if (!(o instanceof VitalSigns)) return false;
         VitalSigns that = (VitalSigns) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(vitalSignId, that.vitalSignId) &&
                 Objects.equals(patient, that.patient) &&
                 Objects.equals(bloodPressure, that.bloodPressure) &&
                 Objects.equals(heartRate, that.heartRate) &&
@@ -69,13 +72,13 @@ public class VitalSigns {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, patient, bloodPressure, heartRate, oxygenSaturation, temperature, recordingTime);
+        return Objects.hash(vitalSignId, patient, bloodPressure, heartRate, oxygenSaturation, temperature, recordingTime);
     }
 
     @Override
     public String toString() {
         return "VitalSigns{" +
-                "id=" + id +
+                "id=" + vitalSignId +
                 ", patientId=" + (patient != null ? patient.getId() : null) +
                 ", bloodPressure='" + bloodPressure + '\'' +
                 ", heartRate=" + heartRate +

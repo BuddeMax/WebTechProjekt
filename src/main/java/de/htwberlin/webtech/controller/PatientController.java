@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -64,7 +65,7 @@ public class PatientController {
 
     // Neue Methode für die Abfrage der File-Liste eines Patienten
     @GetMapping("/patient/{id}/files")
-    public List<File> getFiles(@PathVariable String id) {
+    public Set<File> getFiles(@PathVariable String id) {
         logger.info("GET request on route patient with {}", id);
         Long patientId = Long.parseLong(id);
         return service.getFiles(patientId);
@@ -107,7 +108,7 @@ public class PatientController {
 
     // Neue Methode für die Abfrage der ToDo-Liste eines Patienten
     @GetMapping("/patient/{id}/todos")
-    public List<ToDo> getToDos(@PathVariable String id) {
+    public Set<ToDo> getToDos(@PathVariable String id) {
         logger.info("GET request on route patient with {}", id);
         Long patientId = Long.parseLong(id);
         return service.getToDos(patientId);
@@ -150,7 +151,7 @@ public class PatientController {
 
     // Neue Methode für die Abfrage der VitalSign-Liste eines Patienten
     @GetMapping("/patient/{id}/vitalsigns")
-    public List<VitalSigns> getVitalSigns(@PathVariable String id) {
+    public Set<VitalSigns> getVitalSigns(@PathVariable String id) {
         logger.info("GET request on route patient with {}", id);
         Long patientId = Long.parseLong(id);
         return service.getVitalSigns(patientId);

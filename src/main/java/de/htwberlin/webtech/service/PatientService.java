@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PatientService {
@@ -55,7 +56,7 @@ public class PatientService {
     }
 
     // Neue Methode für die Abfrage der File-Liste eines Patienten
-    public List<File> getFiles(Long id) {
+    public Set<File> getFiles(Long id) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
         return existingPatient.getFiles();
     }
@@ -63,7 +64,7 @@ public class PatientService {
     // Neue Methode für die Abfrage eines Files
     public File getFile(Long id, Long fileId) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<File> files = existingPatient.getFiles();
+        Set<File> files = existingPatient.getFiles();
         for (File file : files) {
             if (file.getId().equals(fileId)) {
                 return file;
@@ -82,7 +83,7 @@ public class PatientService {
     // Neue Methode für das Update eines Files
     public File updateFile(Long id, Long fileId, File updatedFile) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<File> files = existingPatient.getFiles();
+        Set<File> files = existingPatient.getFiles();
         for (File file : files) {
             if (file.getId().equals(fileId)) {
                 file.setFileName(updatedFile.getFileName());
@@ -97,7 +98,7 @@ public class PatientService {
     // Neue Methode für das Löschen eines Files
     public void deleteFile(Long id, Long fileId) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<File> files = existingPatient.getFiles();
+        Set<File> files = existingPatient.getFiles();
         for (File file : files) {
             if (file.getId().equals(fileId)) {
                 existingPatient.removeFile(file);
@@ -107,7 +108,7 @@ public class PatientService {
         }
     }
     // Neue Methode für die Abfrage der VitalSigns-Liste eines Patienten
-    public List<VitalSigns> getVitalSigns(Long id) {
+    public Set<VitalSigns> getVitalSigns(Long id) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
         return existingPatient.getVitalSigns();
     }
@@ -115,9 +116,9 @@ public class PatientService {
     // Neue Methode für die Abfrage eines VitalSigns
     public VitalSigns getVitalSign(Long id, Long vitalSignId) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<VitalSigns> vitalSigns = existingPatient.getVitalSigns();
+        Set<VitalSigns> vitalSigns = existingPatient.getVitalSigns();
         for (VitalSigns vitalSign : vitalSigns) {
-            if (vitalSign.getId().equals(vitalSignId)) {
+            if (vitalSign.getVitalSignId().equals(vitalSignId)) {
                 return vitalSign;
             }
         }
@@ -128,20 +129,20 @@ public class PatientService {
     public VitalSigns createVitalSign(Long id, VitalSigns vitalSign) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
         existingPatient.addVitalSign(vitalSign);
-        return repo.save(existingPatient).getVitalSign(vitalSign.getId());
+        return repo.save(existingPatient).getVitalSign(vitalSign.getVitalSignId());
     }
 
     // Neue Methode für das Update eines VitalSigns
     public VitalSigns updateVitalSign(Long id, Long vitalSignId, VitalSigns updatedVitalSign) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<VitalSigns> vitalSigns = existingPatient.getVitalSigns();
+        Set<VitalSigns> vitalSigns = existingPatient.getVitalSigns();
         for (VitalSigns vitalSign : vitalSigns) {
-            if (vitalSign.getId().equals(vitalSignId)) {
+            if (vitalSign.getVitalSignId().equals(vitalSignId)) {
                 vitalSign.setHeartRate(updatedVitalSign.getHeartRate());
                 vitalSign.setBloodPressure(updatedVitalSign.getBloodPressure());
                 vitalSign.setTemperature(updatedVitalSign.getTemperature());
                 vitalSign.setOxygenSaturation(updatedVitalSign.getOxygenSaturation());
-                return repo.save(existingPatient).getVitalSign(vitalSign.getId());
+                return repo.save(existingPatient).getVitalSign(vitalSign.getVitalSignId());
             }
         }
         return null;
@@ -150,9 +151,9 @@ public class PatientService {
     // Neue Methode für das Löschen eines VitalSigns
     public void deleteVitalSign(Long id, Long vitalSignId) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<VitalSigns> vitalSigns = existingPatient.getVitalSigns();
+        Set<VitalSigns> vitalSigns = existingPatient.getVitalSigns();
         for (VitalSigns vitalSign : vitalSigns) {
-            if (vitalSign.getId().equals(vitalSignId)) {
+            if (vitalSign.getVitalSignId().equals(vitalSignId)) {
                 existingPatient.removeVitalSign(vitalSign);
                 repo.save(existingPatient);
                 return;
@@ -161,7 +162,7 @@ public class PatientService {
     }
 
     // Neue Methode für die Abfrage der ToDo-Liste eines Patienten
-    public List<ToDo> getToDos(Long id) {
+    public Set<ToDo> getToDos(Long id) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
         return existingPatient.getToDos();
     }
@@ -169,7 +170,7 @@ public class PatientService {
     // Neue Methode für die Abfrage eines ToDo
     public ToDo getToDos(Long id, Long toDoId) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<ToDo> toDos = existingPatient.getToDos();
+        Set<ToDo> toDos = existingPatient.getToDos();
         for (ToDo toDo : toDos) {
             if (toDo.getToDoId().equals(toDoId)) {
                 return toDo;
@@ -182,8 +183,6 @@ public class PatientService {
      * dieses dann in Datenbank speichert. Anschließend wird das ToDo-Objekt aus der Datenbank
      * dem Patienten hinzugefügt und der Patient in der Datenbank gespeichert.
      * @param id
-     * @param toDoId
-     * @param updatedToDo
      * @return
      */
     public ToDo createToDo (Long id, ToDo toDo) {
@@ -196,7 +195,7 @@ public class PatientService {
     // Neue Methode für das Update eines ToDo
     public ToDo updateToDo (Long id, Long toDoId, ToDo updatedToDo) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<ToDo> toDos = existingPatient.getToDos();
+        Set<ToDo> toDos = existingPatient.getToDos();
         for (ToDo toDo : toDos) {
             if (toDo.getToDoId().equals(toDoId)) {
                 toDo.setBeschreibung(updatedToDo.getBeschreibung());
@@ -211,7 +210,7 @@ public class PatientService {
     // Neue Methode für das Löschen eines ToDo
     public void deleteToDo (Long id, Long toDoId) {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
-        List<ToDo> toDos = existingPatient.getToDos();
+        Set<ToDo> toDos = existingPatient.getToDos();
         for (ToDo toDo : toDos) {
             if (toDo.getToDoId().equals(toDoId)) {
                 existingPatient.removeToDo (toDo);

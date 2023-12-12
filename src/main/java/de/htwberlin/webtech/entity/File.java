@@ -1,10 +1,13 @@
 package de.htwberlin.webtech.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Table(name = "file")
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +22,11 @@ public class File {
     private LocalDateTime uploadDate;
     @Column(name = "description")
     private String description;//optional
+
+    @ManyToOne
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinColumn(name = "patientId")
+    private Patient patient;
 
     public File() {
     }

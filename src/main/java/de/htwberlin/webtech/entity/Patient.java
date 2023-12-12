@@ -2,14 +2,15 @@ package de.htwberlin.webtech.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
 public class Patient{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long patientId;
     private String username;
     private String password;
     private String name;
@@ -33,15 +34,14 @@ public class Patient{
     @JoinColumn(name = "nurseId")
     private AbstractUser responsibleNurse;
 
-    @OneToMany
-    private List<VitalSigns> vitalSigns;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<VitalSigns> vitalSigns;
 
-    @OneToMany
-    @JoinColumn(name = "toDoId")
-    private List<ToDo> toDos;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ToDo> toDos;
 
-    @OneToMany
-    private List<File> files;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<File> files = new HashSet<>();
 
     private String note;
 
@@ -66,10 +66,10 @@ public class Patient{
     }
 
     public Long getId() {
-        return id;
+        return patientId;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long patientId) {
+        this.patientId = patientId;
     }
 
     public String getUsername() {
@@ -121,10 +121,10 @@ public class Patient{
     public AbstractUser getResponsibleNurse() {return responsibleNurse;}
     public void setResponsibleNurse(AbstractUser responsibleNurse) {this.responsibleNurse = responsibleNurse;}
 
-    public List<VitalSigns> getVitalSigns() {return vitalSigns;}
+    public Set<VitalSigns> getVitalSigns() {return vitalSigns;}
     public  VitalSigns getVitalSign(Long vitalSignId) {
         for (VitalSigns vitalSign : vitalSigns) {
-            if (vitalSign.getId().equals(vitalSignId)) {
+            if (vitalSign.getVitalSignId().equals(vitalSignId)) {
                 return vitalSign;
             }
         }
@@ -132,9 +132,9 @@ public class Patient{
     }
     public void addVitalSign(VitalSigns vitalSign) {this.vitalSigns.add(vitalSign);}
     public void removeVitalSign(VitalSigns vitalSign) {this.vitalSigns.remove(vitalSign);}
-    public void setVitalSigns(List<VitalSigns> vitalSigns) {this.vitalSigns = vitalSigns;}
+    public void setVitalSigns(Set<VitalSigns> vitalSigns) {this.vitalSigns = vitalSigns;}
 
-    public List<ToDo> getToDos() {return toDos;}
+    public Set<ToDo> getToDos() {return toDos;}
     public ToDo getToDo (Long toDoId) {
         for (ToDo toDo : toDos) {
             if (toDo.getToDoId().equals(toDoId)) {
@@ -143,12 +143,12 @@ public class Patient{
         }
         return null;
     }
-    public void setToDos(List<ToDo> toDos) {this.toDos = toDos;}
+    public void setToDos(Set<ToDo> toDos) {this.toDos = toDos;}
     public void addToDo (ToDo toDo) {this.toDos.add(toDo);}
     public void removeToDo (ToDo toDo) {this.toDos.remove(toDo);}
 
 
-    public List<File> getFiles() {return files;}
+    public Set<File> getFiles() {return files;}
 
     public File getFile(Long fileId) {
         for (File file : files) {
@@ -162,7 +162,7 @@ public class Patient{
     public void removeFile(File file) {
         this.files.remove(file);
     }
-    public void setFiles(List<File> files) {this.files = files;}
+    public void setFiles(Set<File> files) {this.files = files;}
 
     public void addFile(File file) {
         this.files.add(file);
@@ -195,7 +195,7 @@ public class Patient{
     @Override
     public String toString() {
         return "Thing{" +
-                "id=" + id +
+                "id=" + patientId +
                 ", name='" + name + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", age=" + age +
