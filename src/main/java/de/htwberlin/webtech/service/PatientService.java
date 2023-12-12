@@ -4,6 +4,7 @@ import de.htwberlin.webtech.entity.File;
 import de.htwberlin.webtech.entity.Patient;
 import de.htwberlin.webtech.entity.ToDo;
 import de.htwberlin.webtech.entity.VitalSigns;
+import de.htwberlin.webtech.repository.FileRepository;
 import de.htwberlin.webtech.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,12 @@ public class PatientService {
 
     @Autowired
     PatientRepository repo;
+
+    @Autowired
+    private PatientRepository patientRepository; // Annahme der Repository-Instanzen
+
+    @Autowired
+    private FileRepository fileRepository;
 
     public Patient save(Patient patient) {
         return repo.save(patient);
@@ -73,11 +80,23 @@ public class PatientService {
         return null;
     }
 
-    // Neue Methode für die Erstellung eines Files
-    public File createFile(Long id, File file) {
-        Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
+    public File createFile(File file) {
+        // Hier wird das File zuerst erstellt
+        File createdFile = fileRepository.save(file);
+        return createdFile;
+    }
+
+    public File assignFileToPatient(Long patientId, Long fileId) {
+        Patient existingPatient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        File file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("File not found"));
+
         existingPatient.addFile(file);
-        return repo.save(existingPatient).getFile(file.getId());
+        patientRepository.save(existingPatient);
+
+        return file;
     }
 
     // Neue Methode für das Update eines Files

@@ -8,6 +8,7 @@ import de.htwberlin.webtech.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -73,10 +74,16 @@ public class PatientController {
 
     // Neue Methode für die Erstellung eines Files
     @PostMapping("/patient/{id}/files")
-    public File createFile(@PathVariable String id, @RequestBody File file) {
+    public ResponseEntity<String> createFileForPatient(@PathVariable Long id, @RequestBody File file) {
         logger.info("POST request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        return service.createFile(patientId, file);
+
+        // Erstelle das File
+        File createdFile = service.createFile(file);
+
+        // Ordne das erstellte File dem Patienten zu
+        service.assignFileToPatient(id, createdFile.getId());
+
+        return ResponseEntity.ok("File created and assigned to patient.");
     }
 
     // Neue Methode für das Update eines Files
