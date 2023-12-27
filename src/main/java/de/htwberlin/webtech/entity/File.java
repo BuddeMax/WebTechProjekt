@@ -16,9 +16,9 @@ public class File {
     private String filePath;//DB zum Datn speichern für Laborergebnisse usw.
     private LocalDateTime uploadDate;
     private String description;//optional
-    @ManyToOne
-    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @JoinColumn(name = "file_id")
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private Patient patient;
 
     public File() {
@@ -46,8 +46,17 @@ public class File {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public Patient getPatient() { return patient; }
-    public void setPatient(Patient patient) { this.patient = patient; }
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public void assignPatient(Patient patient){
+        this.patient = patient;
+    }
 
     @Override
     public boolean equals(Object o) {

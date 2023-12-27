@@ -11,22 +11,17 @@ import java.util.Objects;
 public class VitalSigns {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long vitalSignId;
+    private Long id;
     private String bloodPressure;
     private Integer heartRate;
     private Double oxygenSaturation;
     private Double temperature;
     private LocalDateTime recordingTime;
-    @ManyToOne
-    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @JoinColumn(name = "vitalSigns_id")
-    private Patient patient;
 
     public VitalSigns() {
     }
 
-    public VitalSigns(Patient patient, String bloodPressure, Integer heartRate, Double oxygenSaturation, Double temperature, LocalDateTime recordingTime) {
-        this.patient = patient;
+    public VitalSigns(String bloodPressure, Integer heartRate, Double oxygenSaturation, Double temperature, LocalDateTime recordingTime) {
         this.bloodPressure = bloodPressure;
         this.heartRate = heartRate;
         this.oxygenSaturation = oxygenSaturation;
@@ -35,11 +30,8 @@ public class VitalSigns {
     }
 
 
-    public Long getVitalSignId() { return vitalSignId; }
-    public void setVitalSignId(Long vitalSignId) { this.vitalSignId = vitalSignId; }
-
-    public Patient getPatient() { return patient; }
-    public void setPatient(Patient patient) { this.patient = patient; }
+    public Long getVitalSignId() { return id; }
+    public void setVitalSignId(Long id) { this.id = id; }
 
     public String getBloodPressure() { return bloodPressure; }
     public void setBloodPressure(String bloodPressure) { this.bloodPressure = bloodPressure; }
@@ -61,8 +53,7 @@ public class VitalSigns {
         if (this == o) return true;
         if (!(o instanceof VitalSigns)) return false;
         VitalSigns that = (VitalSigns) o;
-        return Objects.equals(vitalSignId, that.vitalSignId) &&
-                Objects.equals(patient, that.patient) &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(bloodPressure, that.bloodPressure) &&
                 Objects.equals(heartRate, that.heartRate) &&
                 Objects.equals(oxygenSaturation, that.oxygenSaturation) &&
@@ -72,14 +63,13 @@ public class VitalSigns {
 
     @Override
     public int hashCode() {
-        return Objects.hash(vitalSignId, patient, bloodPressure, heartRate, oxygenSaturation, temperature, recordingTime);
+        return Objects.hash(id, bloodPressure, heartRate, oxygenSaturation, temperature, recordingTime);
     }
 
     @Override
     public String toString() {
         return "VitalSigns{" +
-                "id=" + vitalSignId +
-                ", patientId=" + (patient != null ? patient.getId() : null) +
+                "id=" + id +
                 ", bloodPressure='" + bloodPressure + '\'' +
                 ", heartRate=" + heartRate +
                 ", oxygenSaturation=" + oxygenSaturation +

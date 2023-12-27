@@ -11,23 +11,20 @@ import java.time.LocalDateTime;
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long toDoId;
+    private Long id;
     private String beschreibung;
     private String prioritaet;
     private String status;
     private LocalDateTime recordingTime;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
 
     // Getter für toDoId
     public Long getToDoId() {
-        return toDoId;
+        return id;
     }
 
     // Setter für toDoId
-    public void setToDoId(Long toDoId) {
-        this.toDoId = toDoId;
+    public void setToDoId(Long id) {
+        this.id = id;
     }
 
     // Getter für beschreibung

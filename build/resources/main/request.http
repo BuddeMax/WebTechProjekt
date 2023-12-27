@@ -1,15 +1,8 @@
-POST https://webtechprojekt.onrender.com/savePatient
+POST http://localhost:8080/file/49
 Content-Type: application/json
 
-{ "name": "test",
-  "nachname": "test",
-  "files": [
-    {
-      "fileName": "test.txt",
-      "filePath": "path",
-      "description": "test"
-    }
-  ]
+{
+  "fileName": "file"
 }
 
 

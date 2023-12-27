@@ -24,12 +24,6 @@ public class PatientController {
     @Autowired
     PatientService service;
 
-    @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
-    private FileRepository fileRepository;
-
     Logger logger = LoggerFactory.getLogger(PatientController.class);
 
     @PostMapping("/patient")
@@ -56,189 +50,19 @@ public class PatientController {
         service.delete(patientId);
     }
 
+    //Delete all patients
+    @DeleteMapping("/patients/delete")
+    public void deleteAllPatients() {
+        logger.info("DELETE request on route patients");
+        service.deleteAll();
+    }
+
     // Neue Methode für die Aktualisierung eines Patienten
     @PutMapping("/patient/{id}")
     public Patient updatePatient(@PathVariable String id, @RequestBody Patient updatedPatient) {
         logger.info("PUT request on route patient with {}", id);
         Long patientId = Long.parseLong(id);
         return service.update(patientId, updatedPatient);
-    }
-
-    // Neue Methode für die Abfrage eines Files
-    @GetMapping("/patient/{id}/file/{fileId}")
-    public File getFile(@PathVariable String id, @PathVariable String fileId) {
-        logger.info("GET request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long fileIdLong = Long.parseLong(fileId);
-        return service.getFile(patientId, fileIdLong);
-    }
-
-    // Neue Methode für die Abfrage der File-Liste eines Patienten
-    @GetMapping("/patient/{id}/files")
-    public Set<File> getFiles(@PathVariable String id) {
-        logger.info("GET request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        return service.getFiles(patientId);
-    }
-
-    // Neue Methode für das Update eines Files
-    @PutMapping("/patient/{id}/file/{fileId}")
-    public File updateFile(@PathVariable String id, @PathVariable String fileId, @RequestBody File updatedFile) {
-        logger.info("PUT request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long fileIdLong = Long.parseLong(fileId);
-        return service.updateFile(patientId, fileIdLong, updatedFile);
-    }
-
-    // Neue Methode für das Löschen eines Files
-    @DeleteMapping("/patient/{id}/file/{fileId}")
-    public void deleteFile(@PathVariable String id, @PathVariable String fileId) {
-        logger.info("DELETE request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long fileIdLong = Long.parseLong(fileId);
-        service.deleteFile(patientId, fileIdLong);
-    }
-
-    // Neue Methode für die Abfrage eines ToDos
-    @GetMapping("/patient/{id}/todo/{toDoId}")
-    public ToDo getToDo(@PathVariable String id, @PathVariable String toDoId) {
-        logger.info("GET request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long toDoIdLong = Long.parseLong(toDoId);
-        return service.getToDos(patientId, toDoIdLong);
-    }
-
-    // Neue Methode für die Abfrage der ToDo-Liste eines Patienten
-    @GetMapping("/patient/{id}/todos")
-    public Set<ToDo> getToDos(@PathVariable String id) {
-        logger.info("GET request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        return service.getToDos(patientId);
-    }
-
-    // Neue Methode für die Erstellung eines ToDos
-    @PostMapping("/patient/{id}/todo")
-    public ToDo createToDo(@PathVariable String id, @RequestBody ToDo toDo) {
-        logger.info("POST request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        return service.createToDo(patientId, toDo);
-    }
-
-    // Neue Methode für das Update eines ToDos
-    @PutMapping("/patient/{id}/todo/{toDoId}")
-    public ToDo updateToDo(@PathVariable String id, @PathVariable String toDoId, @RequestBody ToDo updatedToDo) {
-        logger.info("PUT request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long toDoIdLong = Long.parseLong(toDoId);
-        return service.updateToDo(patientId, toDoIdLong, updatedToDo);
-    }
-
-    // Neue Methode für das Löschen eines ToDo
-    @DeleteMapping("/patient/{id}/todo/{toDoId}")
-    public void deleteToDo(@PathVariable String id, @PathVariable String toDoId) {
-        logger.info("DELETE request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long toDoIdLong = Long.parseLong(toDoId);
-        service.deleteToDo (patientId, toDoIdLong);
-    }
-
-    // Neue Methode für die Abfrage eines VitalSigns
-    @GetMapping("/patient/{id}/vitalsign/{vitalSignId}")
-    public VitalSigns getVitalSign(@PathVariable String id, @PathVariable String vitalSignId) {
-        logger.info("GET request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long vitalSignIdLong = Long.parseLong(vitalSignId);
-        return service.getVitalSign(patientId, vitalSignIdLong);
-    }
-
-    // Neue Methode für die Abfrage der VitalSign-Liste eines Patienten
-    @GetMapping("/patient/{id}/vitalsigns")
-    public Set<VitalSigns> getVitalSigns(@PathVariable String id) {
-        logger.info("GET request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        return service.getVitalSigns(patientId);
-    }
-
-    // Neue Methode für die Erstellung eines VitalSigns
-    @PostMapping("/patient/{id}/vitalsign")
-    public VitalSigns createVitalSign(@PathVariable String id, @RequestBody VitalSigns vitalSign) {
-        logger.info("POST request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        return service.createVitalSign(patientId, vitalSign);
-    }
-
-    // Neue Methode für das Update eines VitalSigns
-    @PutMapping("/patient/{id}/vitalsign/{vitalSignId}")
-    public VitalSigns updateVitalSign(@PathVariable String id, @PathVariable String vitalSignId, @RequestBody VitalSigns updatedVitalSign) {
-        logger.info("PUT request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long vitalSignIdLong = Long.parseLong(vitalSignId);
-        return service.updateVitalSign(patientId, vitalSignIdLong, updatedVitalSign);
-    }
-
-    // Neue Methode für das Löschen eines VitalSigns
-    @DeleteMapping("/patient/{id}/vitalsign/{vitalSignId}")
-    public void deleteVitalSign(@PathVariable String id, @PathVariable String vitalSignId) {
-        logger.info("DELETE request on route patient with {}", id);
-        Long patientId = Long.parseLong(id);
-        Long vitalSignIdLong = Long.parseLong(vitalSignId);
-        service.deleteVitalSign(patientId, vitalSignIdLong);
-    }
-
-    @PostMapping("/savePatient")
-    public String savePatient(@RequestBody Patient patient) {
-        System.out.println("Patient save called...");
-
-        // a new Owner
-        Patient patientIn = new Patient();
-
-        // list of Blog
-        Set<File> files = new HashSet<>();
-        for (File fileIn : patient.getFiles()) {
-            // new Blog
-            File file = new File(fileIn.getFileName(), fileIn.getFilePath(), fileIn.getUploadDate(), fileIn.getDescription());
-            // set owner to Blog
-            file.setPatient(patientIn);
-            // add blog to list
-            files.add(file);
-        }
-
-        // add blog list to Owner
-        patientIn.setFiles(files);
-
-        // save Owner
-        Patient patientOut = patientRepository.save(patientIn);
-        System.out.println("Owner out :: " + patientIn);
-
-        System.out.println("Saved!!!");
-        return "Patient saved!!!";
-    }
-
-    @PostMapping("/saveFile")
-    public String saveFile(@RequestParam(name = "id") String id) {
-        System.out.println("File save called...");
-
-        // fetch Ower
-        Patient patientTemp = patientRepository.findById(Long.parseLong(id)).get();
-
-        // list of Blog
-        Set<File> files = new HashSet<>();
-
-        // new Blog
-        File file = new File();
-        // set owner to blog
-        file.setPatient(patientTemp);
-        // add Blog to list
-        files.add(file);
-
-        // add Blog list to Owner
-        patientTemp.setFiles(files);
-
-        // save Owner
-        patientRepository.save(patientTemp);
-
-        System.out.println("Saved!!!");
-        return "File saved!!!";
     }
 
 
