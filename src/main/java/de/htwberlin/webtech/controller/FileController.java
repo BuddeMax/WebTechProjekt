@@ -56,5 +56,12 @@ public class FileController {
         return fileService.save(file);
     }
 
+    // Get all files from a patient
+    @GetMapping("/patient/{patientId}/files")
+    public Iterable<File> getAllFilesFromPatient(@PathVariable Long patientId) {
+        Patient patient = patientService.get(patientId);
+        return patient.getFiles();
+    }
+
 
 }
