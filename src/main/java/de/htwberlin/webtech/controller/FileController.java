@@ -24,10 +24,6 @@ public class FileController {
     @Autowired
     private PatientService patientService;
 
-    private FileRepository fileRepository;
-
-    private PatientRepository patientRepository;
-
     Logger logger = LoggerFactory.getLogger(PatientController.class);
 
 
@@ -54,6 +50,15 @@ public class FileController {
         Patient patient = patientService.get(patientId);
         file.assignPatient(patient);
         return fileService.save(file);
+    }
+
+    //Delete a file from a patient
+    @DeleteMapping("/file/{fileId}/patient/{patientId}")
+    public void deleteFileFromPatient(@PathVariable Long fileId, @PathVariable Long patientId) {
+        File file = fileService.get(fileId);
+        Patient patient = patientService.get(patientId);
+        file.assignPatient(null);
+        fileService.save(file);
     }
 
     // Get all files from a patient
