@@ -18,6 +18,7 @@ public class Patient{
     private int age;// umändern zu birthdate
     private LocalDate birthDate;
     private String gender;
+    @Column(length = 2048)
     private String note;
 
     @JsonIgnore

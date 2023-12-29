@@ -80,5 +80,31 @@ public class ToDoController {
         Patient patient = patientService.get(patientId);
         return patient.getToDos();
     }
+
+    //Update a status of a ToDo to erledigt
+    @PutMapping("/todo/{todoId}/status/erledigt")
+    public ToDo updateToDoStatusErledigt(@PathVariable Long todoId) {
+        ToDo todo = toDoService.get(todoId);
+        todo.setStatus("erledigt");
+        return toDoService.save(todo);
+    }
+
+    //Update a status of a ToDo to in Bearbeitung
+    @PutMapping("/todo/{todoId}/status/inBearbeitung")
+    public ToDo updateToDoStatusInBearbeitung(@PathVariable Long todoId) {
+        ToDo todo = toDoService.get(todoId);
+        todo.setStatus("In Bearbeitung");
+        return toDoService.save(todo);
+    }
+
+    //Update a status of a ToDo to offen
+    @PutMapping("/todo/{todoId}/status/offen")
+    public ToDo updateToDoStatusOffen(@PathVariable Long todoId) {
+        ToDo todo = toDoService.get(todoId);
+        todo.setStatus("Offen");
+        return toDoService.save(todo);
+    }
+
+
 }
 
