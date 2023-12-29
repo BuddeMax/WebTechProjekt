@@ -53,8 +53,6 @@ public class PatientService {
         Patient existingPatient = repo.findById(id).orElseThrow(() -> new RuntimeException());
 
         // Setze die aktualisierten Werte
-        existingPatient.setUsername(updatedPatient.getUsername());
-        existingPatient.setPassword(updatedPatient.getPassword());
         existingPatient.setNote(updatedPatient.getNote());
 
         // Speichere die Aktualisierung in der Datenbank

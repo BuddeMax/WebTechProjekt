@@ -40,7 +40,6 @@ public class ToDoService {
         // Setze die aktualisierten Werte
         existingToDo.setBeschreibung(updatedToDo.getBeschreibung());
         existingToDo.setPrioritaet(updatedToDo.getPrioritaet());
-        existingToDo.setStatus(updatedToDo.getStatus());
         existingToDo.setRecordingTime(updatedToDo.getRecordingTime());
 
         // Speichere die Aktualisierung in der Datenbank

@@ -17,6 +17,20 @@ public class ToDo {
     private String status;
     private LocalDateTime recordingTime;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id")
+    private Patient patient;
+
+    public ToDo() {
+    }
+
+    public ToDo(String beschreibung, String prioritaet, String status, LocalDateTime recordingTime) {
+        this.beschreibung = beschreibung;
+        this.prioritaet = prioritaet;
+        this.status = status;
+        this.recordingTime = recordingTime;
+    }
+
     // Getter für toDoId
     public Long getToDoId() {
         return id;
@@ -65,6 +79,18 @@ public class ToDo {
     // Setter für recordingTime
     public void setRecordingTime(LocalDateTime recordingTime) {
         this.recordingTime = recordingTime;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public void assignPatient(Patient patient) {
+        this.patient = patient;
     }
 }
 

@@ -1,8 +1,19 @@
-POST http://localhost:8080/file/49
+POST http://localhost:8080/file/10/patient/3
 Content-Type: application/json
 
 {
-  "fileName": "file"
+  "fileName":"test.txt",
+  "filePath":"path",
+  "uploadDate":null,
+  "description":"test",
+  "patient":
+    {"id":3,
+      "name":"test",
+      "firstname":"test",
+      "age":20,
+      "birthDate":null,
+      "gender":null,
+      "note":"test"}
 }
 
 
