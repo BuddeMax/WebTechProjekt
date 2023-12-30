@@ -1,4 +1,5 @@
 # WebTechProjekt
+[![Java CI with Gradle](https://github.com/BuddeMax/WebTechProjekt/actions/workflows/gradle.yml/badge.svg)](https://github.com/BuddeMax/WebTechProjekt/actions/workflows/gradle.yml)
 
 WebTechProjekt von @BenjaminMasters2 & @BuddeMax
 
