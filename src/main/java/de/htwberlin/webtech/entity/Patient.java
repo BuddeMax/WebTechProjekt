@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -63,6 +62,20 @@ public class Patient{
     }
     public void setAge(int age) {
         this.age = age;
+    }
+
+    //Calculate the age of the patient
+    public int calculateAge() {
+        LocalDate today = LocalDate.now();
+        int age = today.getYear() - birthDate.getYear();
+        if (today.getMonthValue() < birthDate.getMonthValue()) {
+            age--;
+        } else if (today.getMonthValue() == birthDate.getMonthValue()
+                && today.getDayOfMonth() < birthDate.getDayOfMonth()) {
+            age--;
+        }
+        this.age = age;
+        return age;
     }
 
     public LocalDate getBirthDate() {return birthDate;}

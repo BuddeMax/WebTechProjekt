@@ -28,6 +28,8 @@ public class PatientController {
 
     @PostMapping("/patient")
     public Patient createPatient(@RequestBody Patient patient) {
+        // Calculate the age of the patient
+        patient.setAge(patient.calculateAge());
         return service.save(patient);
     }
 
