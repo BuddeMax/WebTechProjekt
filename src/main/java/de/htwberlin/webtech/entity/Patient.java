@@ -31,7 +31,7 @@ public class Patient{
     public Patient() {
     }
 
-    public Patient(String name, String firstname, int age) {
+    public Patient(String name, String firstname) {
         this.name = name;
         this.firstname = firstname;
         this.age = age;// umändern zu birthdate
@@ -126,14 +126,10 @@ public class Patient{
 
     @Override
     public String toString() {
-        return "Thing{" +
+        return "Patient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", firstname='" + firstname + '\'' +
-                ", age=" + age +
-                ", birthDate=" + birthDate +
-                ", gender='" + gender + '\'' +
-                ", note='" + note + '\'' +
                 '}';
     }
 
