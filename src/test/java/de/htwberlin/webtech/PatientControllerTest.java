@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import java.time.LocalDate;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -48,20 +50,16 @@ public class PatientControllerTest {
     public void testGetAllRoute() throws Exception {
         Patient patient = new Patient("Mustermann", "Max");
         patient.setId(1L);
-        Patient patient2 = new Patient("Mustermann", "Max");
+        Patient patient2 = new Patient("Mueller", "Lisa");
         patient2.setId(2L);
         when(service.getAll()).thenReturn(java.util.List.of(patient, patient2));
 
-        String expected = "[{\"id\":1,\"name\":\"Mustermann\",\"firstname\":\"Max\",\"age\":0,\"birthDate\":null,\"gender\":null,\"note\":null},{\"id\":2,\"name\":\"Mustermann\",\"firstname\":\"Max\",\"age\":0,\"birthDate\":null,\"gender\":null,\"note\":null}]";
+        String expected = "[{\"id\":1,\"name\":\"Mustermann\",\"firstname\":\"Max\",\"age\":0,\"birthDate\":null,\"gender\":null,\"note\":null},{\"id\":2,\"name\":\"Mueller\",\"firstname\":\"Lisa\",\"age\":0,\"birthDate\":null,\"gender\":null,\"note\":null}]";
 
         this.mockMvc.perform(get("/patients"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(expected)));
     }
-
-
-
-
 
 }

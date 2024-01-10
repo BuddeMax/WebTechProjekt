@@ -41,15 +41,15 @@ public class PatientServiceTests {
     void testFindByIdTwo(){
         Patient patient = new Patient("Mustermann", "Max");
         patient.setId(1L);
-        Patient patient2 = new Patient("Mustermann", "Max");
+        Patient patient2 = new Patient("Mueller", "Lisa");
         patient2.setId(2L);
 
         doReturn(Optional.of(patient)).when(repository).findById(1L);
         doReturn(Optional.of(patient2)).when(repository).findById(2L);
 
-        Patient returnedPatient = service.get(1L);
+        Patient returnedPatient = service.get(2L);
 
-        assertEquals("Mustermann", returnedPatient.getName(), "The name should be the same");
+        assertEquals("Mueller", returnedPatient.getName(), "The name should be the same");
 
     }
 }
