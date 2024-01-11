@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -67,14 +68,15 @@ public class Patient{
     //Calculate the age of the patient
     public int calculateAge() {
         LocalDate today = LocalDate.now();
+        if (birthDate != null && birthDate.isAfter(today)) {
+            throw new IllegalArgumentException("Geburtsdatum kann nicht in der Zukunft liegen");
+        }
+
         int age = today.getYear() - birthDate.getYear();
-        if (today.getMonthValue() < birthDate.getMonthValue()) {
-            age--;
-        } else if (today.getMonthValue() == birthDate.getMonthValue()
-                && today.getDayOfMonth() < birthDate.getDayOfMonth()) {
+        if (birthDate != null && (today.getMonthValue() < birthDate.getMonthValue() ||
+                (today.getMonthValue() == birthDate.getMonthValue() && today.getDayOfMonth() < birthDate.getDayOfMonth()))) {
             age--;
         }
-        this.age = age;
         return age;
     }
 
@@ -107,21 +109,17 @@ public class Patient{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Patient)) return false;
-
         Patient patient = (Patient) o;
-
-        if (getAge() != patient.getAge()) return false;
-        if (getId() != null ? !getId().equals(patient.getId()) : patient.getId() != null) return false;
-        return getName() != null ? getName().equals(patient.getName()) : patient.getName() == null;
+        return Objects.equals(id, patient.id) &&
+                Objects.equals(name, patient.name) &&
+                Objects.equals(firstname, patient.firstname) &&
+                Objects.equals(birthDate, patient.birthDate);
     }
+
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + getAge();
-        result = 31 * result + (getFirstname() != null ? getFirstname().hashCode() : 0);
-        return result;
+        return Objects.hash(id, name, firstname, birthDate);
     }
 
     @Override
